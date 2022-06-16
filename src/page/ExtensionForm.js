@@ -1,7 +1,10 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import CurrentDate from '../components/CurrentDate';
 import { useForm } from 'react-hook-form';
 import moment from "moment"
+import { Axios } from "axios";
+const ExtensionAPI_URL = 'http://localhost:8080/api/v1/extensions';
+
 
 export const ExtensionForm = () => {
 
@@ -13,32 +16,42 @@ export const ExtensionForm = () => {
     const { register, formState: { errors }, handleSubmit } = useForm({
         defaultValues: {
             extDate: resultFormat,
-            firstName: "",
-            middleName: "",
-            lastName: "",
-            birthDate: "",
-            birthPlace: "",
+            first_name: "",
+            middle_name: "",
+            last_name: "",
+            birth_date: "",
+            birth_place: "",
             nationality: "",
-            passportNO: "",
-            issueDate: "",
-            expiryDate: "",
-            visaType: "",
-            arrivedBy: "",
-            inDate: "",
-            portOfArrival: "",
-            tm6NO: "",
-            extendDate: 0,
+            passport_no: "",
+            passport_issue_date: "",
+            passport_expired_date: "",
+            visa_type: "",
+            convreg_no: "",
+            arrival_port: "",
+            date_of_entry: "",
+            tm6_no: "",
+            extension_days: 0,
             reason: "",
             adress: "",
-            adressNo: "",
-            road: "",
-            subDistrict: "",
-            district: "",
-            province: ""
         }
     });
 
     const onSubmit = (data) => console.log(data);
+    // const [jsonData, setJsonData] = useState([])
+    // useEffect(() => {
+    //     Axios.get('http://103.122.112.32:8000/api/v1/extensions')
+    //     .then(res => {
+    //         console.log("Getting from ::::", res.jsonData)
+    //         setJsonData(res.jsonData)
+    //     }).catch(err => console.log(err));
+    // }, [])
+    // const onSubmit = (e) => {
+    //     e.preventDefault();
+    //     Axios.post('http://103.122.112.32:8000/api/v1/extensions', {register
+    //     }).then(res => console.log('Posting Data', res)).catch(err => console.log(err))
+        
+    // }
+
 
     return (
         <div className="w-full font-maitree">
@@ -63,7 +76,7 @@ export const ExtensionForm = () => {
                                 ชื่อ
                             </label>
                             <input className="uppercase appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-first-name" type="text" placeholder=""
-                                {...register("firstName", {
+                                {...register("first_name", {
                                     required: 'จำเป็นต้องกรอกช่องนี้',
                                     pattern: {
                                         value: /[A-Za-zก-ฮ]/,
@@ -75,14 +88,14 @@ export const ExtensionForm = () => {
                                     }
                                 }
                                 )} />
-                            <p className="mt-2 text-sm text-red-600">{errors.firstName && errors.firstName.message}</p>
+                            <p className="mt-2 text-sm text-red-600">{errors.first_name && errors.first_name.message}</p>
                         </div>
                         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-middle-name">
                                 ชื่อรอง
                             </label>
                             <input className="uppercase appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-middle-name" type="text" placeholder=""
-                                {...register("middName", {
+                                {...register("middle_name", {
                                     pattern: {
                                         value: /[A-Za-zก-ฮ]/,
                                         message: 'กรอกแค่ตัวอักษรเท่านั้น'
@@ -95,7 +108,7 @@ export const ExtensionForm = () => {
                                 ชื่อสกุล
                             </label>
                             <input className="uppercase appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder=""
-                                {...register("lastName", {
+                                {...register("last_name", {
                                     required: 'จำเป็นต้องกรอกช่องนี้',
                                     pattern: {
                                         value: /[A-Za-zก-ฮ]/,
@@ -107,7 +120,7 @@ export const ExtensionForm = () => {
                                     }
                                 }
                                 )} />
-                            <p className="mt-2 text-sm text-red-600">{errors.lastName && errors.lastName.message}</p>
+                            <p className="mt-2 text-sm text-red-600">{errors.last_name && errors.last_name.message}</p>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -116,18 +129,18 @@ export const ExtensionForm = () => {
                                 วันเดือนปีเกิด
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-birth-date" type="date" placeholder=""
-                                {...register("birthDate", {
+                                {...register("birth_date", {
                                     required: "จำเป็นต้องกรอกช่องนี้"
                                 }
                                 )} />
-                            <p className="mt-2 text-sm text-red-600">{errors.birthDate && errors.birthDate.message}</p>
+                            <p className="mt-2 text-sm text-red-600">{errors.birth_date && errors.birth_date.message}</p>
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-birth-place">
                                 สถานที่เกิด
                             </label>
                             <input className="uppercase appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-middle-name" type="text" placeholder="กรอกเมืองที่ท่านเกิดเป็นภาษาอังกฤษ เช่น Bangkok"
-                                {...register("birthPlace", {
+                                {...register("birth_place", {
                                     minLength: 3,
                                     pattern: {
                                         value: /[A-Za-zก-ฮ]/,
@@ -167,10 +180,10 @@ export const ExtensionForm = () => {
                                 เลขหนังสือเดินทาง
                             </label>
                             <input className="uppercase appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-passport-no" type="text" placeholder="เช่น A3325567"
-                                {...register("passportNO", {
+                                {...register("passport_no", {
                                     required: "จำเป็นต้องกรอกช่องนี้"
                                 })} />
-                            <p className="mt-2 text-sm text-red-600">{errors.passportNO && errors.passportNO.message}</p>
+                            <p className="mt-2 text-sm text-red-600">{errors.passport_no && errors.passport_no.message}</p>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -179,14 +192,14 @@ export const ExtensionForm = () => {
                                 วันที่<u className="text-red-500">ออก</u>หนังสือเดินทาง
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-issue-date" type="date" placeholder=""
-                                {...register("issueDate")} />
+                                {...register("passport_issue_date")} />
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-expiry-date">
                                 วัน<u className="text-red-500">หมดอายุ</u>หนังสือเดินทาง
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-expiry-date" type="date" placeholder=""
-                                {...register("expiryDate")} />
+                                {...register("passport_expired_date")} />
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -194,7 +207,8 @@ export const ExtensionForm = () => {
                             <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-visa-type">
                                 ประเภทวีซ่า
                             </label>
-                            <select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="visa-type" id="grid-visa-type" {...register("visaType")}>
+                            <select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="visa-type" id="grid-visa-type"
+                            {...register("visa-type")}>
                                 <option value="transit-visa">Transit VISA</option>
                                 <option value="tourist-visa">Tourist VISA</option>
                                 <option value="non-immgrant-visa">Non-Immigrant VISA</option>
@@ -220,7 +234,7 @@ export const ExtensionForm = () => {
                                 วันที่เดินทางเข้า
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-in-date" type="date" placeholder=""
-                                {...register("issueDate")} />
+                                {...register("date_of_entry")} />
                         </div>
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-port-of-arrival">
@@ -241,7 +255,7 @@ export const ExtensionForm = () => {
                                 จำนวนวันที่ขออยู่ต่อ
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-extend-date" type="number" placeholder="ตัวเลขเท่านั้น"
-                                {...register("extendDate", {
+                                {...register("extension_days", {
                                     pattern: {
                                         value: /[0-9]/,
                                         message: 'กรอกแค่ตัวเลขเท่านั้น'
@@ -255,7 +269,7 @@ export const ExtensionForm = () => {
                                         message: "กรอกอย่างน้อย 1 วัน"
                                     }
                                 })} />
-                            <p className="mt-2 text-sm text-red-600">{errors.extendDate && errors.extendDate.message}</p>
+                            <p className="mt-2 text-sm text-red-600">{errors.extension_days && errors.extension_days.message}</p>
                         </div>
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -288,61 +302,22 @@ export const ExtensionForm = () => {
                             <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-adress">
                                 ที่อยู่
                             </label>
-                            <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-7 px-5 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-reason" name="grid-adress" placeholder="" />
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-adress-no">
-                                เลขที่บ้าน
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-adress-no" type="text" placeholder="" />
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-road">
-                                ถนน
-                            </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-road" type="text" placeholder="" />
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-sub-district">
-                                ตำบล/แขวง
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" list="grid-sub-district" name="grid-sub-district"
-                                    {...register("subDistrict")} />
-                            </label>
-                            <datalist id="grid-sub-district">
-                                <option value="บางนา"></option>
-                                <option value="บางบ่อ"></option>
-                                <option value="ทองหล่อ"></option>
-                            </datalist>
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-district">
-                                อำเภอ/เขต
-                                <input className="appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" list="grid-district" name="grid-district"
-                                    {...register("district")} />
-                            </label>
-                            <datalist id="grid-district">
-                                <option value="บางนา"></option>
-                                <option value="บางบ่อ"></option>
-                                <option value="ทองหล่อ"></option>
-                            </datalist>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-l font-regular mb-2" for="grid-province">
-                                จังหวัด
-                                <input className="appearance-none w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" list="grid-province" name="grid-province"
-                                    {...register("province")} />
-                            </label>
-                            <datalist id="grid-province">
-                                <option value="กรุงเทพ"></option>
-                                <option value="กรุงศรี"></option>
-                                <option value="กรุงสุโขทัย"></option>
-                            </datalist>
+                            <textarea className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-7 px-5 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-reason" name="grid-adress" placeholder="" 
+                            {...register("adress", {
+                                required: "จำเป็นต้องกรอกช่องนี้",
+                                pattern: {
+                                    value: /[A-Za-zก-ฮ0-9]/,
+                                    message: 'กรอกแค่ตัวอักษร'
+                                },
+                                maxLength: {
+                                    value: 250,
+                                    message: 'จำกัด 250 ตัวอักษร'
+                                },
+                                minLength: {
+                                    value: 2,
+                                    message: 'กรอกอย่างน้อย 2 ตัวอักษร'
+                                }
+                            })} />
                         </div>
                     </div>
                     <button type="submit" value="Submit" className="bg-transparent hover:bg-blue-500 text-blue-700 font-medium hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
